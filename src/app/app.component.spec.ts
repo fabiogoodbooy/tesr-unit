@@ -2,6 +2,7 @@ import { TestBed ,ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms'
+import { CheckerService } from './shared/services/checker/checker.service';
 
 // declare the name space with custom function test
 
@@ -16,6 +17,7 @@ declare global{
 describe('AppComponent', () => {
   let fixture : ComponentFixture<AppComponent>;
   let app : AppComponent;
+  let checkService : CheckerService;
   beforeEach( () => {
      TestBed.configureTestingModule({
       imports: [
@@ -45,6 +47,7 @@ describe('AppComponent', () => {
         }
       }
     })
+    checkService = TestBed.inject(CheckerService);
   })
 
   it('should small of 5 ' , ()=>{
@@ -55,9 +58,9 @@ describe('AppComponent', () => {
   });
 
   it(`should have as title 'unit-test'`, () => {
-   
+
     expect(app.title).toEqual('unit-test');
-    //expect(5).toBeGreaterThan(6); test field 
+    //expect(5).toBeGreaterThan(6); test field
   });
 
   it('should render title', () => {
@@ -71,18 +74,28 @@ describe('AppComponent', () => {
   })
 
   describe('calc(...)',()=>{
-    
+
     it('should multiply two number correctly',()=>{
       const result = app.calc(2,4);
-
       expect(result).toBe(8);
+    })
+    it('should verify isValidNumber was called',()=>{
+      let spyIsValidNumber : jasmine.Spy;
+      spyIsValidNumber = spyOn(checkService,'isValidNumber').and.returnValue(true);
+      const result = app.calc(2,4);
+      expect(result).toBe(8);
+      expect(spyIsValidNumber).toHaveBeenCalled(); // isValidNumber have ben called
+      expect(spyIsValidNumber).toHaveBeenCalledTimes(1); // number of call isValidNumber
+      expect(spyIsValidNumber).toHaveBeenCalledWith(2);
+
+
     })
 
   });
 
   describe('changeAge()',()=>{
     it('changeAge() should change correctly',()=>{
-      expect(app.age).toBe(1); // true before call changeAge 
+      expect(app.age).toBe(1); // true before call changeAge
       app.changeAge(); // execute fct changeAge
       expect(app.age).toBe(12);
     })
@@ -90,5 +103,5 @@ describe('AppComponent', () => {
       expect(app.changeAge()).toBeDefined();
     })
   })
-  
+
 });

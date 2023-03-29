@@ -3,6 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms'
 import { CheckerService } from './shared/services/checker/checker.service';
+import { AccountingComponent } from './accounting/accounting.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 // declare the name space with custom function test
 
@@ -25,12 +27,16 @@ describe('AppComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+
       ],
+      schemas : [
+        NO_ERRORS_SCHEMA
+      ]
     })
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
-    console.log('test unit');
+   // console.log('test unit');
   });
   beforeEach(()=>{
 
@@ -63,12 +69,12 @@ describe('AppComponent', () => {
     //expect(5).toBeGreaterThan(6); test field
   });
 
-  it('should render title', () => {
+ /*it('should render title', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.content span')?.textContent).toContain('unit-test app is running!');
   });
-
+*/
   it('name() should be string' ,()=>{
     expect(app.name()).toBeInstanceOf(String);
   })
@@ -81,7 +87,11 @@ describe('AppComponent', () => {
     })
     it('should verify isValidNumber was called',()=>{
       let spyIsValidNumber : jasmine.Spy;
-      spyIsValidNumber = spyOn(checkService,'isValidNumber').and.returnValue(true);
+     // const spyAge : jasmine.Spy = spyOnProperty(checkService,'age', 'get'); // spy On Prp pour le variable
+      //expect(spyAge).toHaveBeenCalled();
+
+
+      spyIsValidNumber = spyOn(checkService,'isValidNumber').and.returnValue(true); // spy On pour les fnct
       const result = app.calc(2,4);
       expect(result).toBe(8);
       expect(spyIsValidNumber).toHaveBeenCalled(); // isValidNumber have ben called

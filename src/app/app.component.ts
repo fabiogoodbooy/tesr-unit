@@ -22,11 +22,15 @@ export class AppComponent {
   }
   public calc(a : any,b : number):number{
     if(this.checkerService.isValidNumber(a)){
+
+      const age = this.checkerService.age ;
+
+
       return this.multiply(a,b) ;
     }
     throw new Error('Sorry it not a valid number ')
-  } 
+  }
   private multiply(a:number , b :number) :number {
-    return a * b 
+    return a * b
   }
 }
